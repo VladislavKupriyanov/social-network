@@ -1,0 +1,31 @@
+.navbar {
+    width: 15%;
+}
+
+.items {
+    list-style-type: none;
+    margin: 0 15px 0 0;
+    padding: 0;
+}
+
+.item {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 30px;
+    padding: 0 5px;
+    font-size: 13px;
+    text-decoration: none;
+    color: #000;
+}
+
+.item:hover {
+    background: #e6e7eb;
+    border-radius: 4px;
+}
+
+.icon {
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+}
