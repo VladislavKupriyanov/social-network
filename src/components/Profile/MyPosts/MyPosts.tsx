@@ -8,6 +8,8 @@ export const MyPosts = () => {
             <textarea className={s.add_post_area} placeholder='Что у вас нового?' />
             <button className={s.send_btn}>Отправить</button>
             <Post />
+            <Post />
+            <Post />
         </div>
     );
 };

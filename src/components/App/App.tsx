@@ -1,3 +1,4 @@
+import { Dialogs } from "../Dialogs/Dialogs";
 import { Header } from "../Header/Header";
 import { Navbar } from "../Navbar/Navbar";
 import { Profile } from "../Profile/Profile";
@@ -9,7 +10,10 @@ export const App = () => {
             <Header />
             <div className={s.container}>
                 <Navbar />
-                <Profile />
+                <div className={s.app_content}>
+                    <Profile />
+                    {/* <Dialogs /> */}
+                </div>
             </div>
         </div>
     );
