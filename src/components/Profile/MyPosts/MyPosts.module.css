@@ -1,0 +1,12 @@
+.my_posts {
+    display: flex;
+    flex-direction: column;
+}
+
+.add_post_area {
+    margin-bottom: 10px;
+}
+
+.send_btn {
+    align-self: flex-end;
+}
