@@ -11,4 +11,10 @@
 
 .container {
     width: 1000px;
+    display: flex;
+    align-items: center;
+}
+
+.logo {
+    height: 26px;
 }
