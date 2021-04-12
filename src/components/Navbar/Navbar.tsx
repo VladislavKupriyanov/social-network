@@ -1,6 +1,5 @@
 import s from './Navbar.module.css';
 
-// Icons
 import ProfileIcon from '../../assets/svg/profile.svg'
 import MessagesIcon from '../../assets/svg/messages.svg'
 import FeedIcon from '../../assets/svg/feed.svg'
