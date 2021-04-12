@@ -1,36 +1,36 @@
 import s from './Navbar.module.css';
-
 import ProfileIcon from '../../assets/svg/profile.svg'
 import MessagesIcon from '../../assets/svg/messages.svg'
 import FeedIcon from '../../assets/svg/feed.svg'
 import FriendsIcon from '../../assets/svg/friends.svg'
 import SettingsIcon from '../../assets/svg/settings.svg'
+import { NavLink } from 'react-router-dom';
 
 export const Navbar = () => {
 
-    const items = [
-        { name: 'Моя страница', ref: '#', img: ProfileIcon },
-        { name: 'Сообщения', ref: '#', img: MessagesIcon },
-        { name: 'Новости', ref: '#', img: FeedIcon },
-        { name: 'Друзья', ref: '#', img: FriendsIcon },
-        { name: 'Настройки', ref: '#', img: SettingsIcon }
+    const links = [
+        { name: 'Моя страница', ref: '/profile', img: ProfileIcon },
+        { name: 'Сообщения', ref: '/dialogs', img: MessagesIcon },
+        { name: 'Новости', ref: '/feed', img: FeedIcon },
+        { name: 'Друзья', ref: '/friends', img: FriendsIcon },
+        { name: 'Настройки', ref: '/settings', img: SettingsIcon }
     ];
 
-    const itemsElements = items.map((i) => {
+    const linksElements = links.map((l) => {
         return (
             <li>
-                <a className={s.item} href={i.ref}>
-                    <img className={s.icon} src={i.img} />
-                    <span>{i.name}</span>
-                </a>
+                <NavLink className={s.link} activeClassName={s.active} to={l.ref}>
+                    <img className={s.icon} src={l.img} />
+                    <span>{l.name}</span>
+                </NavLink>
             </li>
         );
     });
 
     return (
         <div className={s.navbar}>
-            <ul className={s.items}>
-                {itemsElements}
+            <ul className={s.links}>
+                {linksElements}
             </ul>
         </div>
     );

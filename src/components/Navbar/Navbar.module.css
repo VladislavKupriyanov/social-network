@@ -2,13 +2,13 @@
     width: 15%;
 }
 
-.items {
+.links {
     list-style-type: none;
     margin: 0 15px 0 0;
     padding: 0;
 }
 
-.item {
+.link {
     display: flex;
     align-items: center;
     width: 100%;
@@ -19,9 +19,13 @@
     color: #000;
 }
 
-.item:hover {
+.link:hover {
     background: #e6e7eb;
     border-radius: 4px;
+}
+
+.active {
+    font-weight: 600;
 }
 
 .icon {
