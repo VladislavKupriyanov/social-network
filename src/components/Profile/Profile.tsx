@@ -1,8 +1,13 @@
 import s from './Profile.module.css';
 import Avatar from '../../assets/avatar.jpg';
 import { MyPosts } from './MyPosts/MyPosts';
+import { ProfilePageType } from '../../redux/state';
 
-export const Profile = () => {
+type PropsType = {
+    state: ProfilePageType
+}
+
+export const Profile: React.FC<PropsType> = ({ state }) => {
     return (
         <div className={s.profile}>
             <div className={s.row}>
@@ -19,7 +24,7 @@ export const Profile = () => {
                     </span>
                 </div>
             </div>
-            <MyPosts />
+            <MyPosts posts={state.posts} />
         </div>
     );
 };

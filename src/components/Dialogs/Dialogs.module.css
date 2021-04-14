@@ -1,0 +1,13 @@
+.dialogs {
+    display: flex;
+}
+
+.column_dialogs {
+    display: flex;
+    flex-direction: column;
+    width: 20%;
+}
+
+.messages {
+    width: 80%;
+}
