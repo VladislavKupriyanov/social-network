@@ -11,9 +11,10 @@ import s from './App.module.css';
 
 type PropsType = {
     state: RootStateType
+    addPost: (post: string) => void
 }
 
-export const App: React.FC<PropsType> = ({ state }) => {
+export const App: React.FC<PropsType> = ({ state, addPost }) => {
     return (
         <BrowserRouter>
             <div className={s.app}>
@@ -21,7 +22,7 @@ export const App: React.FC<PropsType> = ({ state }) => {
                 <div className={s.container}>
                     <Navbar />
                     <div className={s.app_content}>
-                        <Route render={() => <Profile state={state.profilePage} />} path='/profile' />
+                        <Route render={() => <Profile state={state.profilePage} addPost={addPost} />} path='/profile' />
                         <Route render={() => <Dialogs state={state.dialogsPage} />} path='/dialogs' />
                         <Route render={Friends} path='/friends' />
                         <Route render={Feed} path='/feed' />

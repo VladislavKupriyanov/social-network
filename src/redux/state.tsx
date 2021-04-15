@@ -1,3 +1,5 @@
+import { renderTree } from "../render"
+
 export type PostType = {
     id: number
     post: string
@@ -49,4 +51,10 @@ export const state: RootStateType = {
             { id: 6, message: 'Yo!' }
         ]
     }
+};
+
+export const addPost = (post: string) => {
+    const newPost: PostType = { id: 1, post: post, likeCount: 0 };
+    state.profilePage.posts.push(newPost);
+    renderTree(state);
 };
