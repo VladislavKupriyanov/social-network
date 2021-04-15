@@ -9,7 +9,7 @@ type PropsType = {
 export const Post: React.FC<PropsType> = ({ post, likeCount }) => {
     return (
         <div className={s.post}>
-            <img src={Avatar} className={s.post_avatar} />
+            <img alt='avatar' src={Avatar} className={s.post_avatar} />
             <span className={s.post_text}>{post}</span>
             <div className={s.post_likes}>{likeCount}</div>
         </div>

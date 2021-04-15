@@ -12,13 +12,13 @@ export const Dialogs: React.FC<PropsType> = ({ state }) => {
 
     const dialogsElements = state.dialogs.map((d) => {
         return (
-            <Dialog id={d.id} name={d.name} />
+            <Dialog key={d.id} id={d.id} name={d.name} />
         );
     });
 
     const messagesElements = state.messages.map((m) => {
         return (
-            <Message message={m.message} />
+            <Message key={m.id} message={m.message} />
         )
     });
 

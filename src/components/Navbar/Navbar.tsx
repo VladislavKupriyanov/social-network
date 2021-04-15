@@ -16,11 +16,11 @@ export const Navbar = () => {
         { name: 'Настройки', ref: '/settings', img: SettingsIcon }
     ];
 
-    const linksElements = links.map((l) => {
+    const linksElements = links.map((l, index, arr) => {
         return (
-            <li>
+            <li key={index}>
                 <NavLink className={s.link} activeClassName={s.active} to={l.ref}>
-                    <img className={s.icon} src={l.img} />
+                    <img alt='svg' className={s.icon} src={l.img} />
                     <span>{l.name}</span>
                 </NavLink>
             </li>

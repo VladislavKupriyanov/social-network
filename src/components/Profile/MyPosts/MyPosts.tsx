@@ -5,27 +5,39 @@ import { Post } from './Post/Post';
 
 type PropsType = {
     posts: Array<PostType>
-    addPost: (post: string) => void
+    addPost: (postText: string) => void
+    newPostText: string
+    updateNewPostText: (newPostText: string) => void
 }
 
-export const MyPosts: React.FC<PropsType> = ({ posts, addPost }) => {
+export const MyPosts: React.FC<PropsType> = ({ posts, addPost, newPostText, updateNewPostText }) => {
 
     const textAreaRef = React.createRef<HTMLTextAreaElement>();
 
-    const addPostOnClick = () => {
+    const onClickAddPost = () => {
         if (textAreaRef.current && textAreaRef.current.value !== '') {
             addPost(textAreaRef.current.value);
-            textAreaRef.current.value = '';
         };
     };
 
-    const postsElements = posts.map(p => <Post post={p.post} likeCount={p.likeCount} />);
+    const onChangeNewPostText = () => {
+        const text = textAreaRef.current?.value;
+        if (text || text === '') {
+            updateNewPostText(text);
+        };
+    };
+
+    const postsElements = posts.map(p => <Post key={p.id} post={p.post} likeCount={p.likeCount} />);
 
     return (
         <div className={s.my_posts}>
             <h4>Мои посты</h4>
-            <textarea ref={textAreaRef} className={s.add_post_area} placeholder='Что у вас нового?' />
-            <button onClick={addPostOnClick} className={s.send_btn}>Добавить пост</button>
+            <textarea value={newPostText}
+                onChange={onChangeNewPostText}
+                ref={textAreaRef}
+                className={s.add_post_area}
+                placeholder='Что у вас нового?' />
+            <button onClick={onClickAddPost} className={s.send_btn}>Добавить пост</button>
             {postsElements}
         </div>
     );
