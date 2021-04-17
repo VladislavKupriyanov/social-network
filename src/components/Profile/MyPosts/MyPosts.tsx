@@ -12,7 +12,7 @@ type PropsType = {
 export const MyPosts: React.FC<PropsType> = ({ posts, newPostText, dispatch }) => {
 
     const postsElements = posts.map(p => <Post key={p.id} post={p.post} likeCount={p.likeCount} />);
-    
+
     const onClickAddPost = () => {
         if (newPostText !== '') {
             dispatch(addPostAC());
