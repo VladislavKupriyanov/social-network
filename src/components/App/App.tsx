@@ -1,5 +1,5 @@
 import { BrowserRouter, Route } from "react-router-dom";
-import { RootStateType } from "../../redux/state";
+import { ActionTypes, RootStateType } from "../../redux/state";
 import { Dialogs } from "../Dialogs/Dialogs";
 import { Feed } from "../Feed/Feed";
 import { Friends } from "../Friends/Friends";
@@ -11,23 +11,20 @@ import s from './App.module.css';
 
 type PropsType = {
     state: RootStateType
-    addPost: (post: string) => void
-    updateNewPostText: (newPostText: string) => void
-}
+    dispatch: (action: ActionTypes) => void
+};
 
-export const App: React.FC<PropsType> = ({ state, addPost, updateNewPostText }) => {
+export const App: React.FC<PropsType> = ({ state, dispatch }) => {
 
     const profileForRender = () => {
         return (
-            <Profile state={state.profilePage}
-                addPost={addPost}
-                updateNewPostText={updateNewPostText} />
+            <Profile state={state.profilePage} dispatch={dispatch} />
         );
     };
 
     const dialogsForRender = () => {
         return (
-            <Dialogs state={state.dialogsPage} />
+            <Dialogs state={state.dialogsPage} dispatch={dispatch} />
         );
     };
 

@@ -3,34 +3,45 @@ export type PostType = {
     post: string
     likeCount: number
 };
+
 export type DialogType = {
     id: number
     name: string
 };
+
 export type MessageType = {
     id: number
     message: string
 };
+
 export type ProfilePageType = {
     posts: Array<PostType>
     newPostText: string
 };
+
 export type DialogsPageType = {
     dialogs: Array<DialogType>
     messages: Array<MessageType>
+    newMessageText: string
 };
+
 export type RootStateType = {
     profilePage: ProfilePageType
     dialogsPage: DialogsPageType
 };
 
+export type ActionTypes =
+    ReturnType<typeof addPostAC> |
+    ReturnType<typeof updateNewPostTextAC> |
+    ReturnType<typeof sendMessageAC> |
+    ReturnType<typeof updateNewMessageTextAC>;
+
 export type StoreType = {
     _state: RootStateType
     getState: () => RootStateType
-    addPost: (postText: string) => void
-    updateNewPostText: (newPostText: string) => void
-    _callSubsciber: () => void
+    _onChange: () => void
     subscribe: (observer: () => void) => void
+    dispatch: (action: ActionTypes) => void
 };
 
 export const store: StoreType = {
@@ -59,25 +70,69 @@ export const store: StoreType = {
                 { id: 4, message: 'What?' },
                 { id: 5, message: 'Who?' },
                 { id: 6, message: 'Yo!' }
-            ]
+            ],
+            newMessageText: ''
         }
     },
+
     getState() {
         return this._state;
     },
-    addPost(postText) {
-        const newPost: PostType = { id: this._state.profilePage.posts.length + 1, post: postText, likeCount: 0 };
-        this._state.profilePage.posts.push(newPost);
-        this._state.profilePage.newPostText = '';
-        this._callSubsciber();
-        console.log(this._state.profilePage.posts)
-    },
-    updateNewPostText(newPostText: string) {
-        this._state.profilePage.newPostText = newPostText;
-        this._callSubsciber();
-    },
-    _callSubsciber() { },
+
+    _onChange() { },
+
     subscribe(observer: () => void) {
-        this._callSubsciber = observer;
+        this._onChange = observer;
+    },
+
+    dispatch(action) {
+        if (action.type === ADD_POST) {
+            const newPost = {
+                id: this._state.profilePage.posts.length + 1,
+                post: this._state.profilePage.newPostText,
+                likeCount: 0
+            };
+            this._state.profilePage.posts.push(newPost);
+            this._state.profilePage.newPostText = '';
+            this._onChange();
+
+        } else if (action.type === UPDATE_NEW_POST_TEXT) {
+            this._state.profilePage.newPostText = action.newPostText;
+            this._onChange();
+
+        } else if (action.type === SEND_MESSAGE) {
+            const newMessage = {
+                id: this._state.dialogsPage.messages.length + 1,
+                message: this._state.dialogsPage.newMessageText
+            };
+            this._state.dialogsPage.messages.push(newMessage);
+            this._state.dialogsPage.newMessageText = '';
+            this._onChange();
+
+        } else if (action.type === UPDATE_NEW_MESSAGE_TEXT) {
+            this._state.dialogsPage.newMessageText = action.newMessageText;
+            this._onChange();
+        };
     }
+};
+
+const ADD_POST = 'ADD_POST';
+const UPDATE_NEW_POST_TEXT = 'UPDATE_NEW_POST_TEXT';
+const SEND_MESSAGE = 'SEND_MESSAGE';
+const UPDATE_NEW_MESSAGE_TEXT = 'UPDATE_NEW_MESSAGE_TEXT';
+
+export const addPostAC = () => {
+    return { type: ADD_POST } as const;
+};
+
+export const updateNewPostTextAC = (newPostNext: string) => {
+    return { type: UPDATE_NEW_POST_TEXT, newPostText: newPostNext } as const;
+};
+
+export const sendMessageAC = () => {
+    return { type: SEND_MESSAGE } as const;
+};
+
+export const updateNewMessageTextAC = (newMessageText: string) => {
+    return { type: UPDATE_NEW_MESSAGE_TEXT, newMessageText: newMessageText } as const;
 };

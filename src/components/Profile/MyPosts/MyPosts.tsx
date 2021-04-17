@@ -1,40 +1,33 @@
-import React from 'react';
+import React, { ChangeEvent } from 'react';
 import s from './MyPosts.module.css';
-import { PostType } from '../../../redux/state';
+import { ActionTypes, addPostAC, PostType, updateNewPostTextAC } from '../../../redux/state';
 import { Post } from './Post/Post';
 
 type PropsType = {
     posts: Array<PostType>
-    addPost: (postText: string) => void
     newPostText: string
-    updateNewPostText: (newPostText: string) => void
-}
+    dispatch: (action: ActionTypes) => void
+};
 
-export const MyPosts: React.FC<PropsType> = ({ posts, addPost, newPostText, updateNewPostText }) => {
-
-    const textAreaRef = React.createRef<HTMLTextAreaElement>();
-
-    const onClickAddPost = () => {
-        if (textAreaRef.current && textAreaRef.current.value !== '') {
-            addPost(textAreaRef.current.value);
-        };
-    };
-
-    const onChangeNewPostText = () => {
-        const text = textAreaRef.current?.value;
-        if (text || text === '') {
-            updateNewPostText(text);
-        };
-    };
+export const MyPosts: React.FC<PropsType> = ({ posts, newPostText, dispatch }) => {
 
     const postsElements = posts.map(p => <Post key={p.id} post={p.post} likeCount={p.likeCount} />);
+    
+    const onClickAddPost = () => {
+        if (newPostText !== '') {
+            dispatch(addPostAC());
+        };
+    };
+
+    const onChangeNewPostText = (e: ChangeEvent<HTMLTextAreaElement>) => {
+        dispatch(updateNewPostTextAC(e.currentTarget.value));
+    };
 
     return (
         <div className={s.my_posts}>
             <h4>Мои посты</h4>
             <textarea value={newPostText}
                 onChange={onChangeNewPostText}
-                ref={textAreaRef}
                 className={s.add_post_area}
                 placeholder='Что у вас нового?' />
             <button onClick={onClickAddPost} className={s.send_btn}>Добавить пост</button>

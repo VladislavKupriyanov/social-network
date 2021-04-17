@@ -1,15 +1,14 @@
 import s from './Profile.module.css';
 import Avatar from '../../assets/avatar.jpg';
 import { MyPosts } from './MyPosts/MyPosts';
-import { ProfilePageType } from '../../redux/state';
+import { ActionTypes, ProfilePageType } from '../../redux/state';
 
 type PropsType = {
     state: ProfilePageType
-    addPost: (postText: string) => void
-    updateNewPostText: (newPostText: string) => void
+    dispatch: (action: ActionTypes) => void
 }
 
-export const Profile: React.FC<PropsType> = ({ state, addPost, updateNewPostText }) => {
+export const Profile: React.FC<PropsType> = ({ state, dispatch }) => {
     return (
         <div className={s.profile}>
             <div className={s.row}>
@@ -26,7 +25,7 @@ export const Profile: React.FC<PropsType> = ({ state, addPost, updateNewPostText
                     </span>
                 </div>
             </div>
-            <MyPosts newPostText={state.newPostText} updateNewPostText={updateNewPostText} addPost={addPost} posts={state.posts} />
+            <MyPosts newPostText={state.newPostText} dispatch={dispatch} posts={state.posts} />
         </div>
     );
 };

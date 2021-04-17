@@ -1,14 +1,16 @@
 import s from './Dialogs.module.css';
 import { Dialog } from './Dialog/Dialog';
 import { Message } from './Message/Message';
-import { DialogsPageType } from '../../redux/state';
+import { ActionTypes, DialogsPageType, sendMessageAC, updateNewMessageTextAC } from '../../redux/state';
+import { ChangeEvent } from 'react';
 
 
 type PropsType = {
     state: DialogsPageType
-}
+    dispatch: (action: ActionTypes) => void
+};
 
-export const Dialogs: React.FC<PropsType> = ({ state }) => {
+export const Dialogs: React.FC<PropsType> = ({ state, dispatch }) => {
 
     const dialogsElements = state.dialogs.map((d) => {
         return (
@@ -19,8 +21,18 @@ export const Dialogs: React.FC<PropsType> = ({ state }) => {
     const messagesElements = state.messages.map((m) => {
         return (
             <Message key={m.id} message={m.message} />
-        )
+        );
     });
+
+    const onChangeNewMessageText = (e: ChangeEvent<HTMLTextAreaElement>) => {
+        dispatch(updateNewMessageTextAC(e.currentTarget.value))
+    };
+
+    const onClickSendMessage = () => {
+        if (state.newMessageText !== '') {
+            dispatch(sendMessageAC());
+        };
+    };
 
     return (
         <div className={s.dialogs}>
@@ -29,6 +41,10 @@ export const Dialogs: React.FC<PropsType> = ({ state }) => {
             </div>
             <div className={s.messages}>
                 {messagesElements}
+                <textarea placeholder='Напишите что-нибудь'
+                    value={state.newMessageText}
+                    onChange={onChangeNewMessageText} />
+                <button onClick={onClickSendMessage}>Отправить</button>
             </div>
         </div>
     );
