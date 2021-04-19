@@ -1,5 +1,5 @@
 import { BrowserRouter, Route } from 'react-router-dom';
-import { ActionTypes, RootStateType } from '../../redux/state';
+import { ActionTypes, RootStateType } from '../../redux/store';
 import { Dialogs } from '../Dialogs/Dialogs';
 import { Feed } from '../Feed/Feed';
 import { Friends } from '../Friends/Friends';

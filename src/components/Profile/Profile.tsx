@@ -1,7 +1,7 @@
 import s from './Profile.module.css';
 import Avatar from '../../assets/avatar.jpg';
 import { MyPosts } from './MyPosts/MyPosts';
-import { ActionTypes, ProfilePageType } from '../../redux/state';
+import { ActionTypes, ProfilePageType } from '../../redux/store';
 
 type PropsType = {
     state: ProfilePageType;
