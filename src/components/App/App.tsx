@@ -1,5 +1,5 @@
 import { BrowserRouter, Route } from 'react-router-dom';
-import { ActionTypes, RootStateType } from '../../redux/store';
+import { StateType } from '../../redux/store';
 import { Dialogs } from '../Dialogs/Dialogs';
 import { Feed } from '../Feed/Feed';
 import { Friends } from '../Friends/Friends';
@@ -10,8 +10,8 @@ import { Settings } from '../Settings/Settings';
 import s from './App.module.css';
 
 type PropsType = {
-    state: RootStateType;
-    dispatch: (action: ActionTypes) => void;
+    state: StateType;
+    dispatch: (action: any) => void;
 };
 
 export const App: React.FC<PropsType> = ({ state, dispatch }) => {

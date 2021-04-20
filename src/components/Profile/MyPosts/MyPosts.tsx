@@ -1,13 +1,12 @@
 import React, { ChangeEvent } from 'react';
 import s from './MyPosts.module.css';
-import { ActionTypes, PostType } from '../../../redux/store';
 import { Post } from './Post/Post';
-import { addPostAC, updateNewPostTextAC } from '../../../redux/profileReducer';
+import { addPostAC, PostType, updateNewPostTextAC } from '../../../redux/profileReducer';
 
 type PropsType = {
     posts: Array<PostType>;
     newPostText: string;
-    dispatch: (action: ActionTypes) => void;
+    dispatch: (action: any) => void;
 };
 
 export const MyPosts: React.FC<PropsType> = ({ posts, newPostText, dispatch }) => {

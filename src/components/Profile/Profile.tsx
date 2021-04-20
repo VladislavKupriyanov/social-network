@@ -1,11 +1,11 @@
 import s from './Profile.module.css';
 import Avatar from '../../assets/avatar.jpg';
 import { MyPosts } from './MyPosts/MyPosts';
-import { ActionTypes, ProfilePageType } from '../../redux/store';
+import { ProfilePageType } from '../../redux/profileReducer';
 
 type PropsType = {
     state: ProfilePageType;
-    dispatch: (action: ActionTypes) => void;
+    dispatch: (action: any) => void;
 };
 
 export const Profile: React.FC<PropsType> = ({ state, dispatch }) => {
