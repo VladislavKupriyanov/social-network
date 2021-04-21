@@ -1,6 +1,5 @@
 import { BrowserRouter, Route } from 'react-router-dom';
-import { StateType } from '../../redux/store';
-import { Dialogs } from '../Dialogs/Dialogs';
+import { DialogsContainer } from '../Dialogs/DialogsContainer';
 import { Feed } from '../Feed/Feed';
 import { Friends } from '../Friends/Friends';
 import { Header } from '../Header/Header';
@@ -9,18 +8,13 @@ import { Profile } from '../Profile/Profile';
 import { Settings } from '../Settings/Settings';
 import s from './App.module.css';
 
-type PropsType = {
-    state: StateType;
-    dispatch: (action: any) => void;
-};
-
-export const App: React.FC<PropsType> = ({ state, dispatch }) => {
+export const App: React.FC = () => {
     const profileForRender = () => {
-        return <Profile state={state.profilePage} dispatch={dispatch} />;
+        return <Profile />;
     };
 
     const dialogsForRender = () => {
-        return <Dialogs state={state.dialogsPage} dispatch={dispatch} />;
+        return <DialogsContainer />;
     };
 
     return (

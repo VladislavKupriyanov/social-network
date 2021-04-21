@@ -1,25 +1,26 @@
 import React, { ChangeEvent } from 'react';
 import s from './MyPosts.module.css';
 import { Post } from './Post/Post';
-import { addPostAC, PostType, updateNewPostTextAC } from '../../../redux/profileReducer';
+import { PostType } from '../../../redux/profileReducer';
 
 type PropsType = {
     posts: Array<PostType>;
     newPostText: string;
-    dispatch: (action: any) => void;
+    updateNewPostText: (newPostText: string) => void;
+    addPost: () => void;
 };
 
-export const MyPosts: React.FC<PropsType> = ({ posts, newPostText, dispatch }) => {
+export const MyPosts: React.FC<PropsType> = ({ posts, newPostText, updateNewPostText, addPost }) => {
     const postsElements = posts.map((p) => <Post key={p.id} post={p.post} likeCount={p.likeCount} />);
 
     const onClickAddPost = () => {
         if (newPostText !== '') {
-            dispatch(addPostAC());
+            addPost();
         }
     };
 
     const onChangeNewPostText = (e: ChangeEvent<HTMLTextAreaElement>) => {
-        dispatch(updateNewPostTextAC(e.currentTarget.value));
+        updateNewPostText(e.currentTarget.value);
     };
 
     return (

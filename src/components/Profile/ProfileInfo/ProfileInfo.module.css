@@ -1,0 +1,15 @@
+.row {
+    display: flex;
+}
+
+.avatar {
+    border-radius: 2px;
+}
+
+.profile_info {
+    margin-left: 20px;
+}
+
+.profile_name {
+    margin: 0 0 20px 0;
+}
