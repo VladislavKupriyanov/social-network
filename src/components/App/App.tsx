@@ -1,7 +1,7 @@
 import { BrowserRouter, Route } from 'react-router-dom';
 import { DialogsContainer } from '../Dialogs/DialogsContainer';
 import { Feed } from '../Feed/Feed';
-import { Friends } from '../Friends/Friends';
+import { Users } from '../Users/Users';
 import { Header } from '../Header/Header';
 import { Navbar } from '../Navbar/Navbar';
 import { Profile } from '../Profile/Profile';
@@ -26,7 +26,7 @@ export const App: React.FC = () => {
                     <div className={s.app_content}>
                         <Route render={profileForRender} path="/profile" />
                         <Route render={dialogsForRender} path="/dialogs" />
-                        <Route render={Friends} path="/friends" />
+                        <Route render={Users} path="/users" />
                         <Route render={Feed} path="/feed" />
                         <Route render={Settings} path="/settings" />
                     </div>

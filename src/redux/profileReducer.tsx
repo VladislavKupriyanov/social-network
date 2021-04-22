@@ -39,21 +39,23 @@ const UPDATE_NEW_POST_TEXT = 'UPDATE_NEW_POST_TEXT';
 export const profileReducer = (state = initialState, action: ProfileActionsTypes) => {
     switch (action.type) {
         case ADD_POST: {
-            const stateCopy = { ...state, posts: [...state.posts] };
             const newPost = {
-                id: stateCopy.posts.length + 1,
-                post: stateCopy.newPostText,
+                id: state.posts.length + 1,
+                post: state.newPostText,
                 likeCount: 0,
             };
-            stateCopy.posts = [...stateCopy.posts, newPost];
-            stateCopy.newPostText = '';
-            return stateCopy;
+            return {
+                ...state,
+                posts: [...state.posts, newPost],
+                newPostText: '',
+            };
         }
 
         case UPDATE_NEW_POST_TEXT: {
-            const stateCopy = { ...state };
-            stateCopy.newPostText = action.newPostText;
-            return stateCopy;
+            return {
+                ...state,
+                newPostText: action.newPostText,
+            };
         }
 
         default:
