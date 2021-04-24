@@ -1,6 +1,5 @@
 import { connect } from 'react-redux';
-import { Dispatch } from 'redux';
-import { sendMessageAC, updateNewMessageTextAC } from '../../redux/dialogsReducer';
+import { sendMessage, updateNewMessageText } from '../../redux/dialogsReducer';
 import { RootStateType } from '../../redux/store';
 import { Dialogs } from './Dialogs';
 
@@ -12,15 +11,6 @@ const mstp = (state: RootStateType) => {
     };
 };
 
-const mdtp = (dispatch: Dispatch) => {
-    return {
-        sendMessage: () => {
-            dispatch(sendMessageAC());
-        },
-        updateNewMessageText: (newMessageText: string) => {
-            dispatch(updateNewMessageTextAC(newMessageText));
-        },
-    };
-};
+const mdtp = { sendMessage, updateNewMessageText };
 
 export const DialogsContainer = connect(mstp, mdtp)(Dialogs);

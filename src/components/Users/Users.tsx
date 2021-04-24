@@ -30,7 +30,7 @@ export class Users extends Component<PropsType> {
             };
 
             return (
-                <div className={s.user}>
+                <div className={s.user} key={u.id}>
                     <div>{u.name}</div>
                     {u.photos.small ? (
                         <img className={s.user_photo} src={u.photos.small} alt="user_photo" />

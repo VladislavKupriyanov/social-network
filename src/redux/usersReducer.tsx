@@ -14,10 +14,7 @@ export type UsersPageType = {
     users: Array<UserType>;
 };
 
-export type UsersActionsTypes =
-    | ReturnType<typeof followAC>
-    | ReturnType<typeof unfollowAC>
-    | ReturnType<typeof setUsersAC>;
+export type UsersActionsTypes = ReturnType<typeof follow> | ReturnType<typeof unfollow> | ReturnType<typeof setUsers>;
 
 const initialState: UsersPageType = {
     users: [],
@@ -56,14 +53,14 @@ export const usersReducer = (state = initialState, action: UsersActionsTypes): U
     }
 };
 
-export const followAC = (userId: number) => {
+export const follow = (userId: number) => {
     return { type: FOLLOW, userId } as const;
 };
 
-export const unfollowAC = (userId: number) => {
+export const unfollow = (userId: number) => {
     return { type: UNFOLLOW, userId } as const;
 };
 
-export const setUsersAC = (users: Array<UserType>) => {
+export const setUsers = (users: Array<UserType>) => {
     return { type: SET_USERS, users } as const;
 };

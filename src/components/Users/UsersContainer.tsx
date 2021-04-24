@@ -1,8 +1,7 @@
 import { connect } from 'react-redux';
-import { Dispatch } from 'redux';
 import { RootStateType } from '../../redux/store';
 import { Users } from './Users';
-import { followAC, setUsersAC, unfollowAC, UserType } from '../../redux/usersReducer';
+import { follow, setUsers, unfollow } from '../../redux/usersReducer';
 
 const mstp = (state: RootStateType) => {
     return {
@@ -10,18 +9,6 @@ const mstp = (state: RootStateType) => {
     };
 };
 
-const mdtp = (dispatch: Dispatch) => {
-    return {
-        follow: (userId: number) => {
-            dispatch(followAC(userId));
-        },
-        unfollow: (userId: number) => {
-            dispatch(unfollowAC(userId));
-        },
-        setUsers: (users: Array<UserType>) => {
-            dispatch(setUsersAC(users));
-        },
-    };
-};
+const mdtp = { follow, unfollow, setUsers };
 
 export const UsersContainer = connect(mstp, mdtp)(Users);

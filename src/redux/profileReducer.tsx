@@ -9,7 +9,7 @@ export type ProfilePageType = {
     newPostText: string;
 };
 
-export type ProfileActionsTypes = ReturnType<typeof addPostAC> | ReturnType<typeof updateNewPostTextAC>;
+export type ProfileActionsTypes = ReturnType<typeof addPost> | ReturnType<typeof updateNewPostText>;
 
 const initialState: ProfilePageType = {
     posts: [
@@ -63,10 +63,10 @@ export const profileReducer = (state = initialState, action: ProfileActionsTypes
     }
 };
 
-export const addPostAC = () => {
+export const addPost = () => {
     return { type: ADD_POST } as const;
 };
 
-export const updateNewPostTextAC = (newPostNext: string) => {
+export const updateNewPostText = (newPostNext: string) => {
     return { type: UPDATE_NEW_POST_TEXT, newPostText: newPostNext } as const;
 };

@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { addPostAC, updateNewPostTextAC } from '../../../redux/profileReducer';
+import { addPost, updateNewPostText } from '../../../redux/profileReducer';
 import { RootStateType } from '../../../redux/store';
 import { MyPosts } from './MyPosts';
 
@@ -10,15 +10,6 @@ const mstp = (state: RootStateType) => {
     };
 };
 
-const mdtp = (dispatch: any) => {
-    return {
-        addPost: () => {
-            dispatch(addPostAC());
-        },
-        updateNewPostText: (newPostText: string) => {
-            dispatch(updateNewPostTextAC(newPostText));
-        },
-    };
-};
+const mdtp = { addPost, updateNewPostText };
 
 export const MyPostsContainer = connect(mstp, mdtp)(MyPosts);
