@@ -1,9 +1,9 @@
 import { connect } from 'react-redux';
 import { sendMessageAC, updateNewMessageTextAC } from '../../redux/dialogsReducer';
-import { StateType } from '../../redux/store';
+import { RootStateType } from '../../redux/store';
 import { Dialogs } from './Dialogs';
 
-const mstp = (state: StateType) => {
+const mstp = (state: RootStateType) => {
     return {
         dialogs: state.dialogsPage.dialogs,
         messages: state.dialogsPage.messages,

@@ -1,11 +1,11 @@
 import { BrowserRouter, Route } from 'react-router-dom';
 import { DialogsContainer } from '../Dialogs/DialogsContainer';
 import { Feed } from '../Feed/Feed';
-import { Users } from '../Users/Users';
 import { Header } from '../Header/Header';
 import { Navbar } from '../Navbar/Navbar';
 import { Profile } from '../Profile/Profile';
 import { Settings } from '../Settings/Settings';
+import { UsersContainer } from '../Users/UsersContainer';
 import s from './App.module.css';
 
 export const App: React.FC = () => {
@@ -17,6 +17,10 @@ export const App: React.FC = () => {
         return <DialogsContainer />;
     };
 
+    const usersForRender = () => {
+        return <UsersContainer />;
+    };
+
     return (
         <BrowserRouter>
             <div className={s.app}>
@@ -26,7 +30,7 @@ export const App: React.FC = () => {
                     <div className={s.app_content}>
                         <Route render={profileForRender} path="/profile" />
                         <Route render={dialogsForRender} path="/dialogs" />
-                        <Route render={Users} path="/users" />
+                        <Route render={usersForRender} path="/users" />
                         <Route render={Feed} path="/feed" />
                         <Route render={Settings} path="/settings" />
                     </div>
