@@ -1,55 +1,65 @@
-import axios from 'axios';
-import { Component } from 'react';
 import { UserType } from '../../redux/usersReducer';
+import { Pagination } from '../common/Pagination/Pagination';
 import s from './Users.module.css';
 
 type PropsType = {
     users: Array<UserType>;
     follow: (userId: number) => void;
     unfollow: (userId: number) => void;
-    setUsers: (users: Array<UserType>) => void;
+    usersCount: number;
+    pageSize: number;
+    currentPage: number;
+    setCurrentPage: (currentPage: number) => void;
 };
 
-export class Users extends Component<PropsType> {
-    componentDidMount() {
-        axios
-            .get('https://social-network.samuraijs.com/api/1.0/users')
-            .then((response) => this.props.setUsers(response.data.items));
-    }
+export const Users: React.FC<PropsType> = ({
+    users,
+    follow,
+    unfollow,
+    usersCount,
+    pageSize,
+    currentPage,
+    setCurrentPage,
+}) => {
+    const usersElements = users.map((u) => {
+        const onFollowClick = () => {
+            follow(u.id);
+        };
 
-    render() {
-        const { users, follow, unfollow } = this.props;
+        const onUnfollowClick = () => {
+            unfollow(u.id);
+        };
 
-        const usersElements = users.map((u) => {
-            const onFollowClick = () => {
-                follow(u.id);
-            };
+        return (
+            <div className={s.user} key={u.id}>
+                <div>{u.name}</div>
+                {u.photos.small ? (
+                    <img className={s.user_photo} src={u.photos.small} alt="user_photo" />
+                ) : (
+                    <img
+                        className={s.user_photo}
+                        src="https://support.grasshopper.com/assets/images/care/topnav/default-user-avatar.jpg"
+                        alt="user_photo"
+                    />
+                )}
+                {u.followed ? (
+                    <button onClick={onUnfollowClick}>Unfollow</button>
+                ) : (
+                    <button onClick={onFollowClick}>Follow</button>
+                )}
+            </div>
+        );
+    });
 
-            const onUnfollowClick = () => {
-                unfollow(u.id);
-            };
-
-            return (
-                <div className={s.user} key={u.id}>
-                    <div>{u.name}</div>
-                    {u.photos.small ? (
-                        <img className={s.user_photo} src={u.photos.small} alt="user_photo" />
-                    ) : (
-                        <img
-                            className={s.user_photo}
-                            src="https://support.grasshopper.com/assets/images/care/topnav/default-user-avatar.jpg"
-                            alt="user_photo"
-                        />
-                    )}
-                    {u.followed ? (
-                        <button onClick={onUnfollowClick}>Unfollow</button>
-                    ) : (
-                        <button onClick={onFollowClick}>Follow</button>
-                    )}
-                </div>
-            );
-        });
-
-        return <div className={s.users}>{usersElements}</div>;
-    }
-}
+    return (
+        <>
+            <Pagination
+                itemsCount={usersCount}
+                pageSize={pageSize}
+                currentPage={currentPage}
+                setCurrentPage={setCurrentPage}
+            />
+            <div className={s.users}>{usersElements}</div>
+        </>
+    );
+};
