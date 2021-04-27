@@ -1,3 +1,4 @@
+import { NavLink } from 'react-router-dom';
 import { UserType } from '../../redux/usersReducer';
 import { Pagination } from '../common/Pagination/Pagination';
 import s from './Users.module.css';
@@ -32,16 +33,18 @@ export const Users: React.FC<PropsType> = ({
 
         return (
             <div className={s.user} key={u.id}>
-                <div>{u.name}</div>
-                {u.photos.small ? (
-                    <img className={s.user_photo} src={u.photos.small} alt="user_photo" />
-                ) : (
-                    <img
-                        className={s.user_photo}
-                        src="https://support.grasshopper.com/assets/images/care/topnav/default-user-avatar.jpg"
-                        alt="user_photo"
-                    />
-                )}
+                <NavLink to={`/profile/${u.id}`}>
+                    <div>{u.name}</div>
+                    {u.photos.small ? (
+                        <img className={s.user_photo} src={u.photos.small} alt="user_photo" />
+                    ) : (
+                        <img
+                            className={s.user_photo}
+                            src="https://support.grasshopper.com/assets/images/care/topnav/default-user-avatar.jpg"
+                            alt="user_photo"
+                        />
+                    )}
+                </NavLink>
                 {u.followed ? (
                     <button onClick={onUnfollowClick}>Unfollow</button>
                 ) : (
