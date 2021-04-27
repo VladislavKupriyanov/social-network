@@ -15,6 +15,7 @@ export type UsersPageType = {
     usersCount: number;
     pageSize: number;
     currentPage: number;
+    isFetching: boolean;
 };
 
 export type UsersActionsTypes =
@@ -22,13 +23,15 @@ export type UsersActionsTypes =
     | ReturnType<typeof unfollow>
     | ReturnType<typeof setUsers>
     | ReturnType<typeof setUsersCount>
-    | ReturnType<typeof setCurrentPage>;
+    | ReturnType<typeof setCurrentPage>
+    | ReturnType<typeof toogleIsFetching>;
 
 const initialState: UsersPageType = {
     users: [],
     usersCount: 0,
     pageSize: 10,
     currentPage: 1,
+    isFetching: false,
 };
 
 const FOLLOW = 'FOLLOW';
@@ -36,6 +39,7 @@ const UNFOLLOW = 'UNFOLLOW';
 const SET_USERS = 'SET_USERS';
 const SET_USERS_COUNT = 'SET_USERS_COUNT';
 const SET_CURRENT_PAGE = 'SET_CURRENT_PAGE';
+const TOGGLE_IS_FETCHING = 'TOGGLE_IS_FETCHING';
 
 export const usersReducer = (state = initialState, action: UsersActionsTypes): UsersPageType => {
     switch (action.type) {
@@ -65,6 +69,8 @@ export const usersReducer = (state = initialState, action: UsersActionsTypes): U
             return { ...state, usersCount: action.usersCount };
         case SET_CURRENT_PAGE:
             return { ...state, currentPage: action.currentPage };
+        case TOGGLE_IS_FETCHING:
+            return { ...state, isFetching: action.isFetching };
         default:
             return state;
     }
@@ -88,4 +94,8 @@ export const setUsersCount = (usersCount: number) => {
 
 export const setCurrentPage = (currentPage: number) => {
     return { type: SET_CURRENT_PAGE, currentPage } as const;
+};
+
+export const toogleIsFetching = (isFetching: boolean) => {
+    return { type: TOGGLE_IS_FETCHING, isFetching } as const;
 };
