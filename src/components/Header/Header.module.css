@@ -13,8 +13,14 @@
     width: 1000px;
     display: flex;
     align-items: center;
+    position: relative;
 }
 
 .logo {
     height: 26px;
+}
+
+.login_block {
+    position: absolute;
+    right: 0;
 }

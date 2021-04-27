@@ -8,6 +8,7 @@ import { Profile } from './Profile';
 
 type PropsType = {
     profile: ProfileType;
+    authUserId: number | undefined;
     setUserProfile: (profile: ProfileType) => void;
 };
 
@@ -17,11 +18,13 @@ type ParamsType = {
 
 class ProfileAPIComponent extends Component<RouteComponentProps<ParamsType> & PropsType> {
     componentDidMount = () => {
-        axios
-            .get(`https://social-network.samuraijs.com/api/1.0/profile/${this.props.match.params.userId}`)
-            .then((response) => {
-                this.props.setUserProfile(response.data);
-            });
+        let userId = this.props.match.params.userId;
+        if (!userId && this.props.authUserId) {
+            userId = this.props.authUserId.toString();
+        }
+        axios.get(`https://social-network.samuraijs.com/api/1.0/profile/${userId}`).then((response) => {
+            this.props.setUserProfile(response.data);
+        });
     };
 
     render() {
@@ -32,6 +35,7 @@ class ProfileAPIComponent extends Component<RouteComponentProps<ParamsType> & Pr
 const mstp = (state: RootStateType) => {
     return {
         profile: state.profilePage.profile,
+        authUserId: state.auth.userData?.id,
     };
 };
 
