@@ -1,7 +1,7 @@
 import { BrowserRouter, Route } from 'react-router-dom';
 import { DialogsContainer } from '../Dialogs/DialogsContainer';
 import { Feed } from '../Feed/Feed';
-import { HeaderContainer } from '../Header/HeaderContainer';
+import { Header } from '../Header/Header';
 import { Navbar } from '../Navbar/Navbar';
 import { ProfileContainer } from '../Profile/ProfileContainer';
 import { Settings } from '../Settings/Settings';
@@ -24,7 +24,7 @@ export const App: React.FC = () => {
     return (
         <BrowserRouter>
             <div className={s.app}>
-                <HeaderContainer />
+                <Header />
                 <div className={s.container}>
                     <Navbar />
                     <div className={s.app_content}>
