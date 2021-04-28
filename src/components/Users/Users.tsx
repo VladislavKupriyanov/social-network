@@ -1,5 +1,5 @@
-import axios from 'axios';
 import { NavLink } from 'react-router-dom';
+import { followAPI } from '../../api/api';
 import { UserType } from '../../redux/usersReducer';
 import { Pagination } from '../common/Pagination/Pagination';
 import s from './Users.module.css';
@@ -25,33 +25,19 @@ export const Users: React.FC<PropsType> = ({
 }) => {
     const usersElements = users.map((u) => {
         const onFollowClick = () => {
-            axios
-                .post(`https://social-network.samuraijs.com/api/1.0/follow/${u.id}`, null, {
-                    withCredentials: true,
-                    headers: {
-                        'API-KEY': 'ec16bc5c-e85d-44b7-ba30-15fe65f3b43f',
-                    },
-                })
-                .then((response) => {
-                    if (response.data.resultCode === 0) {
-                        follow(u.id);
-                    }
-                });
+            followAPI.follow(u.id).then((data) => {
+                if (data.resultCode === 0) {
+                    follow(u.id);
+                }
+            });
         };
 
         const onUnfollowClick = () => {
-            axios
-                .delete(`https://social-network.samuraijs.com/api/1.0/follow/${u.id}`, {
-                    withCredentials: true,
-                    headers: {
-                        'API-KEY': 'ec16bc5c-e85d-44b7-ba30-15fe65f3b43f',
-                    },
-                })
-                .then((response) => {
-                    if (response.data.resultCode === 0) {
-                        unfollow(u.id);
-                    }
-                });
+            followAPI.unfollow(u.id).then((data) => {
+                if (data.resultCode === 0) {
+                    unfollow(u.id);
+                }
+            });
         };
 
         return (
