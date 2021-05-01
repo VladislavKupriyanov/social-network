@@ -16,6 +16,7 @@ export type UsersPageType = {
     pageSize: number;
     currentPage: number;
     isFetching: boolean;
+    followInProgress: Array<number>;
 };
 
 export type UsersActionsTypes =
@@ -24,7 +25,8 @@ export type UsersActionsTypes =
     | ReturnType<typeof setUsers>
     | ReturnType<typeof setUsersCount>
     | ReturnType<typeof setCurrentPage>
-    | ReturnType<typeof toogleIsFetching>;
+    | ReturnType<typeof toogleIsFetching>
+    | ReturnType<typeof toogleFollowInProgress>;
 
 const initialState: UsersPageType = {
     users: [],
@@ -32,6 +34,7 @@ const initialState: UsersPageType = {
     pageSize: 10,
     currentPage: 1,
     isFetching: false,
+    followInProgress: [],
 };
 
 const FOLLOW = 'FOLLOW';
@@ -40,6 +43,7 @@ const SET_USERS = 'SET_USERS';
 const SET_USERS_COUNT = 'SET_USERS_COUNT';
 const SET_CURRENT_PAGE = 'SET_CURRENT_PAGE';
 const TOGGLE_IS_FETCHING = 'TOGGLE_IS_FETCHING';
+const TOOGLE_FOLLOW_IN_PROGRESS = 'TOOGLE_FOLLOW_IN_PROGRESS';
 
 export const usersReducer = (state = initialState, action: UsersActionsTypes): UsersPageType => {
     switch (action.type) {
@@ -71,6 +75,13 @@ export const usersReducer = (state = initialState, action: UsersActionsTypes): U
             return { ...state, currentPage: action.currentPage };
         case TOGGLE_IS_FETCHING:
             return { ...state, isFetching: action.isFetching };
+        case TOOGLE_FOLLOW_IN_PROGRESS:
+            return {
+                ...state,
+                followInProgress: action.isFetching
+                    ? [...state.followInProgress, action.userId]
+                    : state.followInProgress.filter((id) => id !== action.userId),
+            };
         default:
             return state;
     }
@@ -98,4 +109,8 @@ export const setCurrentPage = (currentPage: number) => {
 
 export const toogleIsFetching = (isFetching: boolean) => {
     return { type: TOGGLE_IS_FETCHING, isFetching } as const;
+};
+
+export const toogleFollowInProgress = (isFetching: boolean, userId: number) => {
+    return { type: TOOGLE_FOLLOW_IN_PROGRESS, isFetching, userId } as const;
 };

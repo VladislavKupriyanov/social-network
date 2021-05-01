@@ -9,6 +9,7 @@ import {
     setUsersCount,
     setCurrentPage,
     toogleIsFetching,
+    toogleFollowInProgress,
 } from '../../redux/usersReducer';
 import { Component } from 'react';
 import { Preloader } from '../common/Preloader/Preloader';
@@ -20,12 +21,14 @@ type PropsType = {
     pageSize: number;
     currentPage: number;
     isFetching: boolean;
+    followInProgress: Array<number>;
     follow: (userId: number) => void;
     unfollow: (userId: number) => void;
     setUsers: (users: Array<UserType>) => void;
     setUsersCount: (usersCount: number) => void;
     setCurrentPage: (currentPage: number) => void;
     toogleIsFetching: (isFetching: boolean) => void;
+    toogleFollowInProgress: (isFetching: boolean, userId: number) => void;
 };
 
 class UsersAPIComponent extends Component<PropsType> {
@@ -48,13 +51,25 @@ class UsersAPIComponent extends Component<PropsType> {
     };
 
     render() {
-        const { users, follow, unfollow, usersCount, pageSize, currentPage, isFetching } = this.props;
+        const {
+            users,
+            follow,
+            unfollow,
+            usersCount,
+            pageSize,
+            currentPage,
+            isFetching,
+            followInProgress,
+            toogleFollowInProgress,
+        } = this.props;
         return (
             <>
                 {isFetching ? (
                     <Preloader />
                 ) : (
                     <Users
+                        toogleFollowInProgress={toogleFollowInProgress}
+                        followInProgress={followInProgress}
                         users={users}
                         follow={follow}
                         unfollow={unfollow}
@@ -76,9 +91,10 @@ const mstp = (state: RootStateType) => {
         pageSize: state.usersPage.pageSize,
         currentPage: state.usersPage.currentPage,
         isFetching: state.usersPage.isFetching,
+        followInProgress: state.usersPage.followInProgress,
     };
 };
 
-const mdtp = { follow, unfollow, setUsers, setUsersCount, setCurrentPage, toogleIsFetching };
+const mdtp = { follow, unfollow, setUsers, setUsersCount, setCurrentPage, toogleIsFetching, toogleFollowInProgress };
 
 export const UsersContainer = connect(mstp, mdtp)(UsersAPIComponent);

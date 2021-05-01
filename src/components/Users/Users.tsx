@@ -12,6 +12,8 @@ type PropsType = {
     pageSize: number;
     currentPage: number;
     setCurrentPage: (currentPage: number) => void;
+    toogleFollowInProgress: (isFetching: boolean, userId: number) => void;
+    followInProgress: Array<number>;
 };
 
 export const Users: React.FC<PropsType> = ({
@@ -22,10 +24,14 @@ export const Users: React.FC<PropsType> = ({
     pageSize,
     currentPage,
     setCurrentPage,
+    followInProgress,
+    toogleFollowInProgress,
 }) => {
     const usersElements = users.map((u) => {
         const onFollowClick = () => {
+            toogleFollowInProgress(true, u.id);
             followAPI.follow(u.id).then((data) => {
+                toogleFollowInProgress(false, u.id);
                 if (data.resultCode === 0) {
                     follow(u.id);
                 }
@@ -33,8 +39,10 @@ export const Users: React.FC<PropsType> = ({
         };
 
         const onUnfollowClick = () => {
+            toogleFollowInProgress(true, u.id);
             followAPI.unfollow(u.id).then((data) => {
                 if (data.resultCode === 0) {
+                    toogleFollowInProgress(false, u.id);
                     unfollow(u.id);
                 }
             });
@@ -55,9 +63,13 @@ export const Users: React.FC<PropsType> = ({
                     )}
                 </NavLink>
                 {u.followed ? (
-                    <button onClick={onUnfollowClick}>Unfollow</button>
+                    <button disabled={followInProgress.some((id) => id === u.id)} onClick={onUnfollowClick}>
+                        Unfollow
+                    </button>
                 ) : (
-                    <button onClick={onFollowClick}>Follow</button>
+                    <button disabled={followInProgress.some((id) => id === u.id)} onClick={onFollowClick}>
+                        Follow
+                    </button>
                 )}
             </div>
         );
