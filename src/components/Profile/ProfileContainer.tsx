@@ -1,15 +1,14 @@
 import { Component } from 'react';
 import { connect } from 'react-redux';
 import { RouteComponentProps, withRouter } from 'react-router';
-import { profileAPI } from '../../api/api';
-import { setUserProfile, ProfileType } from '../../redux/profileReducer';
+import { getUserProfile, ProfileType } from '../../redux/profileReducer';
 import { RootStateType } from '../../redux/store';
 import { Profile } from './Profile';
 
 type PropsType = {
     profile: ProfileType;
     authUserId: number | undefined;
-    setUserProfile: (profile: ProfileType) => void;
+    getUserProfile: (userId: string) => void;
 };
 
 type ParamsType = {
@@ -22,9 +21,7 @@ class ProfileAPIComponent extends Component<RouteComponentProps<ParamsType> & Pr
         if (!userId && this.props.authUserId) {
             userId = this.props.authUserId.toString();
         }
-        profileAPI.getProfile(userId).then((data) => {
-            this.props.setUserProfile(data);
-        });
+        this.props.getUserProfile(userId);
     };
 
     render() {
@@ -39,7 +36,7 @@ const mstp = (state: RootStateType) => {
     };
 };
 
-const mdtp = { setUserProfile };
+const mdtp = { getUserProfile };
 
 const ProfileWithRouter = withRouter(ProfileAPIComponent);
 

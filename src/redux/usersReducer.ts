@@ -1,3 +1,5 @@
+import { usersAPI, followAPI } from './../api/api';
+
 export type UserType = {
     name: string;
     id: number;
@@ -20,8 +22,8 @@ export type UsersPageType = {
 };
 
 export type UsersActionsTypes =
-    | ReturnType<typeof follow>
-    | ReturnType<typeof unfollow>
+    | ReturnType<typeof followSuccess>
+    | ReturnType<typeof unfollowSuccess>
     | ReturnType<typeof setUsers>
     | ReturnType<typeof setUsersCount>
     | ReturnType<typeof setCurrentPage>
@@ -37,8 +39,8 @@ const initialState: UsersPageType = {
     followInProgress: [],
 };
 
-const FOLLOW = 'FOLLOW';
-const UNFOLLOW = 'UNFOLLOW';
+const FOLLOW_SUCCESS = 'FOLLOW_SUCCESS';
+const UNFOLLOW_SUCCESS = 'UNFOLLOW_SUCCESS';
 const SET_USERS = 'SET_USERS';
 const SET_USERS_COUNT = 'SET_USERS_COUNT';
 const SET_CURRENT_PAGE = 'SET_CURRENT_PAGE';
@@ -47,7 +49,7 @@ const TOOGLE_FOLLOW_IN_PROGRESS = 'TOOGLE_FOLLOW_IN_PROGRESS';
 
 export const usersReducer = (state = initialState, action: UsersActionsTypes): UsersPageType => {
     switch (action.type) {
-        case FOLLOW:
+        case FOLLOW_SUCCESS:
             return {
                 ...state,
                 users: state.users.map((u) => {
@@ -57,7 +59,7 @@ export const usersReducer = (state = initialState, action: UsersActionsTypes): U
                     return u;
                 }),
             };
-        case UNFOLLOW:
+        case UNFOLLOW_SUCCESS:
             return {
                 ...state,
                 users: state.users.map((u) => {
@@ -87,12 +89,14 @@ export const usersReducer = (state = initialState, action: UsersActionsTypes): U
     }
 };
 
-export const follow = (userId: number) => {
-    return { type: FOLLOW, userId } as const;
+// ---Action Creators---
+
+export const followSuccess = (userId: number) => {
+    return { type: FOLLOW_SUCCESS, userId } as const;
 };
 
-export const unfollow = (userId: number) => {
-    return { type: UNFOLLOW, userId } as const;
+export const unfollowSuccess = (userId: number) => {
+    return { type: UNFOLLOW_SUCCESS, userId } as const;
 };
 
 export const setUsers = (users: Array<UserType>) => {
@@ -114,3 +118,44 @@ export const toogleIsFetching = (isFetching: boolean) => {
 export const toogleFollowInProgress = (isFetching: boolean, userId: number) => {
     return { type: TOOGLE_FOLLOW_IN_PROGRESS, isFetching, userId } as const;
 };
+
+// ------
+
+// Thunk Creators
+
+export const getUsers = (currentPage: number, pageSize: number) => {
+    return (dispatch: any) => {
+        dispatch(toogleIsFetching(true));
+        usersAPI.getUsers(currentPage, pageSize).then((data) => {
+            dispatch(toogleIsFetching(false));
+            dispatch(setUsers(data.items));
+            dispatch(setUsersCount(data.totalCount));
+        });
+    };
+};
+
+export const follow = (userId: number) => {
+    return (dispatch: any) => {
+        dispatch(toogleFollowInProgress(true, userId));
+        followAPI.follow(userId).then((data) => {
+            dispatch(toogleFollowInProgress(false, userId));
+            if (data.resultCode === 0) {
+                dispatch(followSuccess(userId));
+            }
+        });
+    };
+};
+
+export const unfollow = (userId: number) => {
+    return (dispatch: any) => {
+        dispatch(toogleFollowInProgress(true, userId));
+        followAPI.unfollow(userId).then((data) => {
+            dispatch(toogleFollowInProgress(false, userId));
+            if (data.resultCode === 0) {
+                dispatch(unfollowSuccess(userId));
+            }
+        });
+    };
+};
+
+// ------

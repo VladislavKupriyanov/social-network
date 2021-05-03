@@ -1,19 +1,9 @@
 import { connect } from 'react-redux';
 import { RootStateType } from '../../redux/store';
 import { Users } from './Users';
-import {
-    follow,
-    setUsers,
-    unfollow,
-    UserType,
-    setUsersCount,
-    setCurrentPage,
-    toogleIsFetching,
-    toogleFollowInProgress,
-} from '../../redux/usersReducer';
+import { follow, unfollow, UserType, setCurrentPage, getUsers } from '../../redux/usersReducer';
 import { Component } from 'react';
 import { Preloader } from '../common/Preloader/Preloader';
-import { usersAPI } from '../../api/api';
 
 type PropsType = {
     users: Array<UserType>;
@@ -24,51 +14,28 @@ type PropsType = {
     followInProgress: Array<number>;
     follow: (userId: number) => void;
     unfollow: (userId: number) => void;
-    setUsers: (users: Array<UserType>) => void;
-    setUsersCount: (usersCount: number) => void;
     setCurrentPage: (currentPage: number) => void;
-    toogleIsFetching: (isFetching: boolean) => void;
-    toogleFollowInProgress: (isFetching: boolean, userId: number) => void;
+    getUsers: (currentPage: number, pageSize: number) => void;
 };
 
 class UsersAPIComponent extends Component<PropsType> {
     componentDidMount = () => {
-        this.props.toogleIsFetching(true);
-        usersAPI.getUsers(this.props.currentPage, this.props.pageSize).then((data) => {
-            this.props.toogleIsFetching(false);
-            this.props.setUsers(data.items);
-            this.props.setUsersCount(data.totalCount);
-        });
+        this.props.getUsers(this.props.currentPage, this.props.pageSize);
     };
 
     onPageChanged = (currentPage: number) => {
         this.props.setCurrentPage(currentPage);
-        this.props.toogleIsFetching(true);
-        usersAPI.getUsers(currentPage, this.props.pageSize).then((data) => {
-            this.props.toogleIsFetching(false);
-            this.props.setUsers(data.items);
-        });
+        this.props.getUsers(currentPage, this.props.pageSize);
     };
 
     render() {
-        const {
-            users,
-            follow,
-            unfollow,
-            usersCount,
-            pageSize,
-            currentPage,
-            isFetching,
-            followInProgress,
-            toogleFollowInProgress,
-        } = this.props;
+        const { users, follow, unfollow, usersCount, pageSize, currentPage, isFetching, followInProgress } = this.props;
         return (
             <>
                 {isFetching ? (
                     <Preloader />
                 ) : (
                     <Users
-                        toogleFollowInProgress={toogleFollowInProgress}
                         followInProgress={followInProgress}
                         users={users}
                         follow={follow}
@@ -90,11 +57,11 @@ const mstp = (state: RootStateType) => {
         usersCount: state.usersPage.usersCount,
         pageSize: state.usersPage.pageSize,
         currentPage: state.usersPage.currentPage,
-        isFetching: state.usersPage.isFetching,
         followInProgress: state.usersPage.followInProgress,
+        isFetching: state.usersPage.isFetching,
     };
 };
 
-const mdtp = { follow, unfollow, setUsers, setUsersCount, setCurrentPage, toogleIsFetching, toogleFollowInProgress };
+const mdtp = { follow, unfollow, setCurrentPage, getUsers };
 
 export const UsersContainer = connect(mstp, mdtp)(UsersAPIComponent);

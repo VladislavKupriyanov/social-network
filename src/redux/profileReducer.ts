@@ -1,3 +1,4 @@
+import { profileAPI } from './../api/api';
 export type PostType = {
     id: number;
     post: string;
@@ -93,6 +94,8 @@ export const profileReducer = (state = initialState, action: ProfileActionsTypes
     }
 };
 
+// Action Creators
+
 export const addPost = () => {
     return { type: ADD_POST } as const;
 };
@@ -104,3 +107,17 @@ export const updateNewPostText = (newPostText: string) => {
 export const setUserProfile = (profile: ProfileType) => {
     return { type: SET_USER_PROFILE, profile } as const;
 };
+
+// ------
+
+// Thunk Creators
+
+export const getUserProfile = (userId: string) => {
+    return (dispatch: any) => {
+        profileAPI.getProfile(userId).then((data) => {
+            dispatch(setUserProfile(data));
+        });
+    };
+};
+
+// ------

@@ -1,19 +1,17 @@
 import { NavLink } from 'react-router-dom';
-import { followAPI } from '../../api/api';
 import { UserType } from '../../redux/usersReducer';
 import { Pagination } from '../common/Pagination/Pagination';
 import s from './Users.module.css';
 
 type PropsType = {
     users: Array<UserType>;
-    follow: (userId: number) => void;
-    unfollow: (userId: number) => void;
     usersCount: number;
     pageSize: number;
     currentPage: number;
-    setCurrentPage: (currentPage: number) => void;
-    toogleFollowInProgress: (isFetching: boolean, userId: number) => void;
     followInProgress: Array<number>;
+    follow: (userId: number) => void;
+    unfollow: (userId: number) => void;
+    setCurrentPage: (currentPage: number) => void;
 };
 
 export const Users: React.FC<PropsType> = ({
@@ -25,27 +23,14 @@ export const Users: React.FC<PropsType> = ({
     currentPage,
     setCurrentPage,
     followInProgress,
-    toogleFollowInProgress,
 }) => {
     const usersElements = users.map((u) => {
         const onFollowClick = () => {
-            toogleFollowInProgress(true, u.id);
-            followAPI.follow(u.id).then((data) => {
-                toogleFollowInProgress(false, u.id);
-                if (data.resultCode === 0) {
-                    follow(u.id);
-                }
-            });
+            follow(u.id);
         };
 
         const onUnfollowClick = () => {
-            toogleFollowInProgress(true, u.id);
-            followAPI.unfollow(u.id).then((data) => {
-                if (data.resultCode === 0) {
-                    toogleFollowInProgress(false, u.id);
-                    unfollow(u.id);
-                }
-            });
+            unfollow(u.id);
         };
 
         return (
