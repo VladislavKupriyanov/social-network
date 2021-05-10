@@ -2,6 +2,7 @@ import { BrowserRouter, Route } from 'react-router-dom';
 import { DialogsContainer } from '../Dialogs/DialogsContainer';
 import { Feed } from '../Feed/Feed';
 import { Header } from '../Header/Header';
+import { Login } from '../Login/Login';
 import { Navbar } from '../Navbar/Navbar';
 import { ProfileContainer } from '../Profile/ProfileContainer';
 import { Settings } from '../Settings/Settings';
@@ -33,6 +34,8 @@ export const App: React.FC = () => {
                         <Route render={usersForRender} path="/users" />
                         <Route render={Feed} path="/feed" />
                         <Route render={Settings} path="/settings" />
+                        <Route render={() => <Login />} path="/login" />
+
                     </div>
                 </div>
             </div>

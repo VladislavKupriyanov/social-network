@@ -1,4 +1,6 @@
 import { connect } from 'react-redux';
+import { compose } from 'redux';
+import { withAuthRedirect } from '../../hoc/withAuthRedirect';
 import { sendMessage, updateNewMessageText } from '../../redux/dialogsReducer';
 import { RootStateType } from '../../redux/store';
 import { Dialogs } from './Dialogs';
@@ -13,4 +15,4 @@ const mstp = (state: RootStateType) => {
 
 const mdtp = { sendMessage, updateNewMessageText };
 
-export const DialogsContainer = connect(mstp, mdtp)(Dialogs);
+export const DialogsContainer = compose(withAuthRedirect, connect(mstp, mdtp))(Dialogs);

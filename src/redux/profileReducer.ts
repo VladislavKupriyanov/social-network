@@ -94,7 +94,7 @@ export const profileReducer = (state = initialState, action: ProfileActionsTypes
     }
 };
 
-// Action Creators
+// ---Action Creators---
 
 export const addPost = () => {
     return { type: ADD_POST } as const;
@@ -110,7 +110,7 @@ export const setUserProfile = (profile: ProfileType) => {
 
 // ------
 
-// Thunk Creators
+// ---Thunk Creators---
 
 export const getUserProfile = (userId: string) => {
     return (dispatch: any) => {

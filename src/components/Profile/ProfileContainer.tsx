@@ -1,6 +1,8 @@
 import { Component } from 'react';
 import { connect } from 'react-redux';
 import { RouteComponentProps, withRouter } from 'react-router';
+import { compose } from 'redux';
+import { withAuthRedirect } from '../../hoc/withAuthRedirect';
 import { getUserProfile, ProfileType } from '../../redux/profileReducer';
 import { RootStateType } from '../../redux/store';
 import { Profile } from './Profile';
@@ -38,6 +40,4 @@ const mstp = (state: RootStateType) => {
 
 const mdtp = { getUserProfile };
 
-const ProfileWithRouter = withRouter(ProfileAPIComponent);
-
-export const ProfileContainer = connect(mstp, mdtp)(ProfileWithRouter);
+export const ProfileContainer = compose(withAuthRedirect, withRouter, connect(mstp, mdtp))(ProfileAPIComponent);
