@@ -33,6 +33,7 @@ export type ProfileType = null | {
 
 export type ProfilePageType = {
     profile: ProfileType;
+    status: string;
     posts: Array<PostType>;
     newPostText: string;
 };
@@ -40,10 +41,12 @@ export type ProfilePageType = {
 export type ProfileActionsTypes =
     | ReturnType<typeof addPost>
     | ReturnType<typeof updateNewPostText>
-    | ReturnType<typeof setUserProfile>;
+    | ReturnType<typeof setUserProfile>
+    | ReturnType<typeof setProfileStatus>;
 
 const initialState: ProfilePageType = {
     profile: null,
+    status: '----',
     posts: [
         {
             id: 1,
@@ -57,8 +60,7 @@ const initialState: ProfilePageType = {
         },
         {
             id: 3,
-            post:
-                'Repellendus dolores iure, voluptate nam quos quia asperiores, explicabo maxime est blanditiis, dolorum ratione delectus?',
+            post: 'Repellendus dolores iure, voluptate nam quos quia asperiores, explicabo maxime est blanditiis, dolorum ratione delectus?',
             likeCount: 11,
         },
     ],
@@ -68,6 +70,7 @@ const initialState: ProfilePageType = {
 const ADD_POST = 'ADD_POST';
 const UPDATE_NEW_POST_TEXT = 'UPDATE_NEW_POST_TEXT';
 const SET_USER_PROFILE = 'SET_USER_PROFILE';
+const SET_PROFILE_STATUS = 'SET_PROFILE_STATUS';
 
 export const profileReducer = (state = initialState, action: ProfileActionsTypes) => {
     switch (action.type) {
@@ -89,6 +92,8 @@ export const profileReducer = (state = initialState, action: ProfileActionsTypes
             };
         case SET_USER_PROFILE:
             return { ...state, profile: action.profile };
+        case SET_PROFILE_STATUS:
+            return { ...state, status: action.status };
         default:
             return state;
     }
@@ -108,6 +113,10 @@ export const setUserProfile = (profile: ProfileType) => {
     return { type: SET_USER_PROFILE, profile } as const;
 };
 
+export const setProfileStatus = (status: string) => {
+    return { type: SET_PROFILE_STATUS, status } as const;
+};
+
 // ------
 
 // ---Thunk Creators---
@@ -116,6 +125,24 @@ export const getUserProfile = (userId: string) => {
     return (dispatch: any) => {
         profileAPI.getProfile(userId).then((data) => {
             dispatch(setUserProfile(data));
+        });
+    };
+};
+
+export const getProfileStatus = (userId: string) => {
+    return (dispatch: any) => {
+        profileAPI.getStatus(userId).then((data) => {
+            dispatch(setProfileStatus(data));
+        });
+    };
+};
+
+export const updateProfileStatus = (status: string) => {
+    return (dispatch: any) => {
+        profileAPI.updateStatus(status).then((response) => {
+            if (response.data.resultCode === 0) {
+                dispatch(setProfileStatus(status));
+            }
         });
     };
 };

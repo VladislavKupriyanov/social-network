@@ -6,9 +6,15 @@ import UsersIcon from '../../assets/svg/users.svg';
 import SettingsIcon from '../../assets/svg/settings.svg';
 import { NavLink } from 'react-router-dom';
 
-export const Navbar = () => {
+type PropsType = {
+    authUserId: number | undefined;
+};
+
+export const Navbar: React.FC<PropsType> = ({ authUserId }) => {
+    let profileRef = authUserId ? `/profile/${authUserId}` : '/profile';
+
     const links = [
-        { name: 'Моя страница', ref: '/profile', img: ProfileIcon },
+        { name: 'Моя страница', ref: profileRef, img: ProfileIcon },
         { name: 'Сообщения', ref: '/dialogs', img: MessagesIcon },
         { name: 'Пользователи', ref: '/users', img: UsersIcon },
         { name: 'Новости', ref: '/feed', img: FeedIcon },
