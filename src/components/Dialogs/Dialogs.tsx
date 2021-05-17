@@ -1,24 +1,16 @@
 import s from './Dialogs.module.css';
 import { Dialog } from './Dialog/Dialog';
 import { Message } from './Message/Message';
-import { ChangeEvent } from 'react';
 import { DialogType, MessageType } from '../../redux/dialogsReducer';
+import { AddMessageDialogReduxForm, AddMessageDialogFormDataType } from './AddMessageDialogForm';
 
 type PropsType = {
     dialogs: Array<DialogType>;
     messages: Array<MessageType>;
-    newMessageText: string;
-    updateNewMessageText: (newMessageText: string) => void;
-    sendMessage: () => void;
+    sendMessage: (newMessage: string) => void;
 };
 
-export const Dialogs: React.FC<PropsType> = ({
-    dialogs,
-    messages,
-    newMessageText,
-    updateNewMessageText,
-    sendMessage,
-}) => {
+export const Dialogs: React.FC<PropsType> = ({ dialogs, messages, sendMessage }) => {
     const dialogsElements = dialogs.map((d) => {
         return <Dialog key={d.id} id={d.id} name={d.name} />;
     });
@@ -27,14 +19,8 @@ export const Dialogs: React.FC<PropsType> = ({
         return <Message key={m.id} message={m.message} />;
     });
 
-    const onChangeNewMessageText = (e: ChangeEvent<HTMLTextAreaElement>) => {
-        updateNewMessageText(e.currentTarget.value);
-    };
-
-    const onClickSendMessage = () => {
-        if (newMessageText !== '') {
-            sendMessage();
-        }
+    const onSendMessage = (values: AddMessageDialogFormDataType) => {
+        sendMessage(values.newMessage);
     };
 
     return (
@@ -42,8 +28,7 @@ export const Dialogs: React.FC<PropsType> = ({
             <div className={s.column_dialogs}>{dialogsElements}</div>
             <div className={s.messages}>
                 {messagesElements}
-                <textarea placeholder="Напишите что-нибудь" value={newMessageText} onChange={onChangeNewMessageText} />
-                <button onClick={onClickSendMessage}>Отправить</button>
+                <AddMessageDialogReduxForm onSubmit={onSendMessage} />
             </div>
         </div>
     );

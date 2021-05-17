@@ -35,12 +35,10 @@ export type ProfilePageType = {
     profile: ProfileType;
     status: string;
     posts: Array<PostType>;
-    newPostText: string;
 };
 
 export type ProfileActionsTypes =
     | ReturnType<typeof addPost>
-    | ReturnType<typeof updateNewPostText>
     | ReturnType<typeof setUserProfile>
     | ReturnType<typeof setProfileStatus>;
 
@@ -64,11 +62,9 @@ const initialState: ProfilePageType = {
             likeCount: 11,
         },
     ],
-    newPostText: '',
 };
 
 const ADD_POST = 'ADD_POST';
-const UPDATE_NEW_POST_TEXT = 'UPDATE_NEW_POST_TEXT';
 const SET_USER_PROFILE = 'SET_USER_PROFILE';
 const SET_PROFILE_STATUS = 'SET_PROFILE_STATUS';
 
@@ -77,18 +73,13 @@ export const profileReducer = (state = initialState, action: ProfileActionsTypes
         case ADD_POST:
             const newPost = {
                 id: state.posts.length + 1,
-                post: state.newPostText,
+                post: action.newPostText,
                 likeCount: 0,
             };
             return {
                 ...state,
                 posts: [...state.posts, newPost],
                 newPostText: '',
-            };
-        case UPDATE_NEW_POST_TEXT:
-            return {
-                ...state,
-                newPostText: action.newPostText,
             };
         case SET_USER_PROFILE:
             return { ...state, profile: action.profile };
@@ -101,12 +92,8 @@ export const profileReducer = (state = initialState, action: ProfileActionsTypes
 
 // ---Action Creators---
 
-export const addPost = () => {
-    return { type: ADD_POST } as const;
-};
-
-export const updateNewPostText = (newPostText: string) => {
-    return { type: UPDATE_NEW_POST_TEXT, newPostText } as const;
+export const addPost = (newPostText: string) => {
+    return { type: ADD_POST, newPostText } as const;
 };
 
 export const setUserProfile = (profile: ProfileType) => {
