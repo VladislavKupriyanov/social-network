@@ -1,4 +1,5 @@
 import { Field, InjectedFormProps, reduxForm } from 'redux-form';
+import { createField } from '../../hoc/createField/createField';
 import { maxLength, required } from '../../utils/validators';
 
 export type AddMessageDialogFormDataType = {
@@ -7,10 +8,17 @@ export type AddMessageDialogFormDataType = {
 
 const maxLenght10 = maxLength(10);
 
+const Textarea = createField('textarea');
+
 const AddMessageDialogForm: React.FC<InjectedFormProps<AddMessageDialogFormDataType>> = (props) => {
     return (
         <form onSubmit={props.handleSubmit}>
-            <Field name="newMessage" component="textarea" validate={[required, maxLenght10]} />
+            <Field
+                name="newMessage"
+                component={Textarea}
+                validate={[required, maxLenght10]}
+                placeholder="Напишите что-нибудь"
+            />
             <button>Отправить</button>
         </form>
     );

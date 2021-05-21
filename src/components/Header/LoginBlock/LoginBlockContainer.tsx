@@ -1,6 +1,6 @@
 import { Component } from 'react';
 import { connect } from 'react-redux';
-import { getUserData, UserDataType } from '../../../redux/authReducer';
+import { getUserData, UserDataType, logout } from '../../../redux/authReducer';
 import { RootStateType } from '../../../redux/store';
 import { LoginBlock } from './LoginBlock';
 
@@ -8,6 +8,7 @@ type PropsType = {
     userData: UserDataType;
     isAuth: boolean;
     getUserData: () => void;
+    logout: () => void;
 };
 
 class LoginBlockAPIComponent extends Component<PropsType> {
@@ -16,9 +17,9 @@ class LoginBlockAPIComponent extends Component<PropsType> {
     };
 
     render() {
-        const { isAuth, userData } = this.props;
+        const { isAuth, userData, logout } = this.props;
 
-        return <LoginBlock isAuth={isAuth} login={userData?.login} />;
+        return <LoginBlock isAuth={isAuth} login={userData?.login} logout={logout} />;
     }
 }
 
@@ -29,6 +30,6 @@ const mstp = (state: RootStateType) => {
     };
 };
 
-const mdtp = { getUserData };
+const mdtp = { getUserData, logout };
 
 export const LoginBlockContainer = connect(mstp, mdtp)(LoginBlockAPIComponent);
